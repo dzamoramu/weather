@@ -1,5 +1,6 @@
 package com.example.weather.search.data.network
 
+import android.util.Log
 import com.example.weather.core.network.RetrofitHelper
 import com.example.weather.search.data.network.response.SearchResponse
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ class SearchService {
                 longitude,
                 appId
             )
+            Log.d("esto es el response", response.body().toString())
             response.body()
         }
     }

@@ -9,8 +9,8 @@ interface SearchClient {
 
     @GET("data/2.5/weather")
     suspend fun getWeatherByName(
-        @Query("latitude") lat: Double,
-        @Query("longitude") long: Double,
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
         @Query("appId") appId: String
     ): Response<SearchResponse>
 }
