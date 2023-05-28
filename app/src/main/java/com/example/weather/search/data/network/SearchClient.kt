@@ -7,11 +7,10 @@ import retrofit2.http.Query
 
 interface SearchClient {
 
-    @GET("/data/2.5/weather")
+    @GET("data/2.5/weather")
     suspend fun getWeatherByName(
         @Query("latitude") lat: Double,
         @Query("longitude") long: Double,
-        @Query("appId") appId: String,
-        @Query("language") lang: String
+        @Query("appId") appId: String
     ): Response<SearchResponse>
 }

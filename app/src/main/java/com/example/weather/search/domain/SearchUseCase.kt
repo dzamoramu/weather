@@ -1,6 +1,7 @@
 package com.example.weather.search.domain
 
 import com.example.weather.search.data.SearchRepository
+import com.example.weather.search.data.network.response.SearchResponse
 
 class SearchUseCase {
    private val repository = SearchRepository()
@@ -9,7 +10,7 @@ class SearchUseCase {
         latitude: Double,
         longitude: Double,
         appId: String
-    ) {
+    ): SearchResponse? {
         return repository.getWeatherByName(latitude, longitude, appId)
     }
 }

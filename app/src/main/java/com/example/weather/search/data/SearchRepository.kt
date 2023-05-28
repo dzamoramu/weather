@@ -1,6 +1,7 @@
 package com.example.weather.search.data
 
 import com.example.weather.search.data.network.SearchService
+import com.example.weather.search.data.network.response.SearchResponse
 
 class SearchRepository {
     private val api = SearchService()
@@ -8,9 +9,8 @@ class SearchRepository {
     suspend fun getWeatherByName(
         latitude: Double,
         longitude: Double,
-        appId: String,
-        language: String
-    ) {
-        return api.getWeatherByName(latitude, longitude, appId, language)
+        appId: String
+    ): SearchResponse? {
+        return api.getWeatherByName(latitude, longitude, appId)
     }
 }
