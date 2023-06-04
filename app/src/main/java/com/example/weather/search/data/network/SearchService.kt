@@ -10,17 +10,14 @@ class SearchService {
     private val retrofit = RetrofitHelper.getRetrofit()
 
     suspend fun getWeatherByName(
-        latitude: Double,
-        longitude: Double,
-        appId: String
+        latitude: Double?,
+        longitude: Double?
     ): SearchResponse? {
         return withContext(Dispatchers.IO) {
             val response = retrofit.create(SearchClient::class.java).getWeatherByName(
                 latitude,
-                longitude,
-                appId
+                longitude
             )
-            Log.d("esto es el response", response.body().toString())
             response.body()
         }
     }

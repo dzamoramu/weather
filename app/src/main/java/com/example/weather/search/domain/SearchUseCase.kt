@@ -7,10 +7,9 @@ class SearchUseCase {
    private val repository = SearchRepository()
 
     suspend operator fun invoke(
-        latitude: Double,
-        longitude: Double,
-        appId: String
+        latitude: Double?,
+        longitude: Double?
     ): SearchResponse? {
-        return repository.getWeatherByName(latitude, longitude, appId)
+        return repository.getWeatherByName(latitude, longitude)
     }
 }

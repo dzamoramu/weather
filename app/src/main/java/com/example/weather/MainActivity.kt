@@ -4,15 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.weather.search.ui.SearchScreen
 import com.example.weather.search.ui.SearchViewModel
 import com.example.weather.ui.theme.WeatherTheme
 
-class MainActivity() : ComponentActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,16 +21,9 @@ class MainActivity() : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting(SearchViewModel())
+                    SearchScreen(SearchViewModel())
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(searchViewModel: SearchViewModel) {
-    Button(onClick = { searchViewModel.searchWeather() }) {
-
     }
 }
