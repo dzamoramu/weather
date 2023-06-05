@@ -12,12 +12,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.weather.search.data.network.response.SearchResponse
+import com.example.weather.search.data.network.response.TempData
+import com.example.weather.search.data.network.response.WindData
 import com.example.weather.ui.theme.WeatherTheme
 
 
 @Composable
 fun SearchScreen(searchViewModel: SearchViewModel) {
-    val data: String by searchViewModel.data.observeAsState("")
+    val data: SearchResponse by searchViewModel.data.observeAsState(
+        SearchResponse(
+            tempData = TempData(0.0f, 0.0f, 0.0f),
+            wind = WindData(0.0f),
+            name = ""
+        )
+    )
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (searchBar, cardView) = createRefs()
 
@@ -31,24 +40,27 @@ fun SearchScreen(searchViewModel: SearchViewModel) {
             onQueryChanged = {
                 searchViewModel.geoLocationName(it)
             })
-        CardDataLocation(modifier = Modifier
-            .padding(20.dp)
-            .constrainAs(cardView) {
-                top.linkTo(searchBar.bottom)
-            })
+        CardDataLocation(
+            modifier = Modifier
+                .padding(20.dp)
+                .constrainAs(cardView) {
+                    top.linkTo(searchBar.bottom)
+                }, data
+        )
     }
 }
 
 @Composable
-fun CardDataLocation(modifier: Modifier = Modifier) {
+fun CardDataLocation(modifier: Modifier = Modifier, data: SearchResponse) {
     Card(
         modifier.size(400.dp, 150.dp)
     ) {
         ConstraintLayout(modifier = Modifier.size(250.dp)) {
             val (nameCity, time, temperature, wind) = createRefs()
-            Text(text = "Munich",
+            Text(text = data.name,
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(top = 16.dp, start = 10.dp)
                     .sizeIn(100.dp)
@@ -57,20 +69,10 @@ fun CardDataLocation(modifier: Modifier = Modifier) {
                         start.linkTo(parent.start)
                     })
 
-            Text(text = "Hora y Clima",
+            Text(text = data.tempData.temp.toString(),
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
-                modifier = Modifier
-                    .padding(bottom = 16.dp, start = 10.dp)
-                    .sizeIn(100.dp)
-                    .constrainAs(time) {
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    })
-
-            Text(text = "Temperature",
-                fontStyle = FontStyle.Italic,
-                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(top = 16.dp, end = 10.dp)
                     .sizeIn(100.dp)
@@ -79,7 +81,7 @@ fun CardDataLocation(modifier: Modifier = Modifier) {
                         end.linkTo(parent.end)
                     })
 
-            Text(text = "Wind",
+            Text(text = data.wind.speed.toString(),
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,

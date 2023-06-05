@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class SearchResponse(
     @SerializedName("main") val tempData: TempData,
-    @SerializedName("wind") val wind: WindData,
+    @SerializedName("wind") val wind: WindData
 )
 
 data class TempData(
