@@ -14,6 +14,9 @@ class SearchViewModel : ViewModel() {
     private val searchUseCase = SearchUseCase()
     private val geolocationUseCase = GeolocationUseCase()
 
+    private val _cityName = MutableLiveData<String>()
+    val cityName: LiveData<String> = _cityName
+
     private val _data = MutableLiveData<SearchResponse>()
     val data: LiveData<SearchResponse> = _data
 
@@ -22,13 +25,14 @@ class SearchViewModel : ViewModel() {
     fun geoLocationName(name: String) {
         viewModelScope.launch {
             _geolocation.value = geolocationUseCase.invoke(name)
-            searchWeather(getLatitude(), getLongitude(), name)
+            _cityName.value = name
+            searchWeather(getLatitude(), getLongitude())
         }
     }
 
-    private fun searchWeather(latitude: Double?, longitude: Double?, cityName: String) {
+    private fun searchWeather(latitude: Double?, longitude: Double?) {
         viewModelScope.launch {
-           _data.value  = searchUseCase.invoke(latitude, longitude)
+            _data.value = searchUseCase.invoke(latitude, longitude)
         }
     }
 

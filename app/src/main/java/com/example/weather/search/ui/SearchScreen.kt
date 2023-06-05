@@ -1,11 +1,13 @@
 package com.example.weather.search.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,10 +25,10 @@ fun SearchScreen(searchViewModel: SearchViewModel) {
     val data: SearchResponse by searchViewModel.data.observeAsState(
         SearchResponse(
             tempData = TempData(0.0f, 0.0f, 0.0f),
-            wind = WindData(0.0f),
-            name = ""
+            wind = WindData(0.0f)
         )
     )
+    val cityName: String by searchViewModel.cityName.observeAsState("")
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (searchBar, cardView) = createRefs()
 
@@ -45,19 +47,19 @@ fun SearchScreen(searchViewModel: SearchViewModel) {
                 .padding(20.dp)
                 .constrainAs(cardView) {
                     top.linkTo(searchBar.bottom)
-                }, data
+                }, data, cityName
         )
     }
 }
 
 @Composable
-fun CardDataLocation(modifier: Modifier = Modifier, data: SearchResponse) {
+fun CardDataLocation(modifier: Modifier = Modifier, data: SearchResponse, cityName: String) {
     Card(
         modifier.size(400.dp, 150.dp)
     ) {
-        ConstraintLayout(modifier = Modifier.size(250.dp)) {
-            val (nameCity, time, temperature, wind) = createRefs()
-            Text(text = data.name,
+        ConstraintLayout(modifier = Modifier.size(250.dp).background(Color.LightGray)) {
+            val (nameCity, temperature, wind) = createRefs()
+            Text(text = cityName,
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
@@ -69,7 +71,7 @@ fun CardDataLocation(modifier: Modifier = Modifier, data: SearchResponse) {
                         start.linkTo(parent.start)
                     })
 
-            Text(text = data.tempData.temp.toString(),
+            Text(text = "${data.tempData.temp}°F",
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,
