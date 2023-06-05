@@ -20,6 +20,9 @@ class SearchViewModel : ViewModel() {
     private val _data = MutableLiveData<SearchResponse>()
     val data: LiveData<SearchResponse> = _data
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading : LiveData<Boolean> = _isLoading
+
     private val _geolocation: MutableLiveData<List<GeoCodingResponse>> = MutableLiveData()
 
     fun geoLocationName(name: String) {

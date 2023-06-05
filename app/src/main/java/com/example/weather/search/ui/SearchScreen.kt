@@ -3,6 +3,7 @@ package com.example.weather.search.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.*
@@ -42,13 +43,23 @@ fun SearchScreen(searchViewModel: SearchViewModel) {
             onQueryChanged = {
                 searchViewModel.geoLocationName(it)
             })
-        CardDataLocation(
-            modifier = Modifier
-                .padding(20.dp)
-                .constrainAs(cardView) {
-                    top.linkTo(searchBar.bottom)
-                }, data, cityName
-        )
+        val isLoading: Boolean by searchViewModel.isLoading.observeAsState(false)
+        if (!isLoading) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            CardDataLocation(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .constrainAs(cardView) {
+                        top.linkTo(searchBar.bottom)
+                    }, data, cityName
+            )
+        }
     }
 }
 
@@ -57,7 +68,11 @@ fun CardDataLocation(modifier: Modifier = Modifier, data: SearchResponse, cityNa
     Card(
         modifier.size(400.dp, 150.dp)
     ) {
-        ConstraintLayout(modifier = Modifier.size(250.dp).background(Color.LightGray)) {
+        ConstraintLayout(
+            modifier = Modifier
+                .size(250.dp)
+                .background(Color.LightGray)
+        ) {
             val (nameCity, temperature, wind) = createRefs()
             Text(text = cityName,
                 fontStyle = FontStyle.Italic,
@@ -70,7 +85,6 @@ fun CardDataLocation(modifier: Modifier = Modifier, data: SearchResponse, cityNa
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
                     })
-
             Text(text = "${data.tempData.temp}°F",
                 fontStyle = FontStyle.Italic,
                 fontSize = 20.sp,
