@@ -1,5 +1,6 @@
 package com.example.weather.search.data.network
 
+import android.util.Log
 import com.example.weather.core.network.RetrofitHelper
 import com.example.weather.search.data.network.response.GeoCodingResponse
 import kotlinx.coroutines.Dispatchers

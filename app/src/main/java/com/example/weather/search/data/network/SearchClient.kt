@@ -12,16 +12,18 @@ interface SearchClient {
     suspend fun getWeatherByName(
         @Query("lat") latitude: Double?,
         @Query("lon") longitude: Double?,
-        @Query("appId") appId: String = APP_ID
+        @Query("appId") appId: String = APP_ID,
+        @Query("units") units: String = UNITS
     ): Response<SearchResponse>
 
     @GET("geo/1.0/direct")
     suspend fun getGeocoding(
         @Query("q") geolocationName: String,
-        @Query("appId") appId: String = APP_ID
+        @Query("appId") appId: String = APP_ID,
     ): Response<List<GeoCodingResponse>>
 
     companion object {
         const val APP_ID = "4fe8dad564e25bfd113c98b6cb38d6e5"
+        const val UNITS = "metric"
     }
 }
