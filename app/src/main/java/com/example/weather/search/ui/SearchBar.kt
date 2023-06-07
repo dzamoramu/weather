@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
@@ -26,8 +27,8 @@ fun SearchBar(
     var query by remember { mutableStateOf("") }
 
     TextField(
-        modifier = modifier.fillMaxWidth()
-            ,
+
+        modifier = modifier.fillMaxWidth(),
         value = query,
         onValueChange = {
             query = it
@@ -40,17 +41,23 @@ fun SearchBar(
             if (query.isNotEmpty()) {
                 IconButton(
                     onClick = { query = "" },
-                    content = { Icon(imageVector = Icons.Filled.Clear, contentDescription = "Clear Icon")}
+                    content = {
+                        Icon(
+                            imageVector = Icons.Filled.Clear,
+                            contentDescription = "Clear Icon"
+                        )
+                    }
                 )
             }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Search,
-            keyboardType = KeyboardType.Text
+            keyboardType = KeyboardType.Text,
+            capitalization = KeyboardCapitalization.Sentences
         ),
         keyboardActions = KeyboardActions(
-            onSearch = {onQueryChanged(query)}
+            onSearch = { onQueryChanged(query) }
         )
     )
 }
